@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'permissions'    
 ]
 
 MIDDLEWARE = [
@@ -87,19 +88,10 @@ WSGI_APPLICATION = 'permissions_melectric.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'OPTIONS': {},
-        # 'NAME': 'permissions_melectric2_dev',
-        'NAME': os.environ.get("DB_NAME"),
-        # 'NAME': os.getenv("DB_NAME", ''),
-        # 'USER': 'postgres',
-        # 'USER': os.getenv('DB_USER', ''),
-        'USER': os.environ.get("DB_USER"),
-        # 'USER': env("DB_USER"),
-        # 'PASSWORD': 'postgres',
-        # 'PASSWORD': os.getenv('DB_PASS', ''),
-        'PASSWORD': os.environ.get('DB_PASS'),
-        #  'HOST': 'localhost',
-        # 'HOST': os.getenv('DB_HOST', ''),
+        'OPTIONS': {},        
+        'NAME': os.environ.get("DB_NAME"),        
+        'USER': os.environ.get("DB_USER"),        
+        'PASSWORD': os.environ.get('DB_PASS'),        
         'HOST': os.environ.get('DB_HOST'),
         'PORT': '5432',
         }
