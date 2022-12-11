@@ -2,13 +2,13 @@ from django.contrib import admin
 from django.utils.html import format_html
 from datetime import date
 
-from .models import State, City, Permission
+from .models import City, Permission, Registration
 
 # Register your models here.
 
-admin.site.register(State)
+# admin.site.register(State)
 admin.site.register(City)
-# admin.site.register(Permission)
+admin.site.register(Permission)
 
 class StatusFilter(admin.SimpleListFilter):
     title = 'Status Filter'
@@ -29,15 +29,15 @@ class StatusFilter(admin.SimpleListFilter):
         return queryset
 
 
-@admin.register(Permission)
-class PermissionAdmin(admin.ModelAdmin):
-    list_display = ('permission_number', 'city', 'expiration_date', 'get_status')
-    search_fields = ['permission_number', 'city__name']
+@admin.register(Registration)
+class RegistrationAdmin(admin.ModelAdmin):
+    list_display = ('registration_number', 'city', 'expiration_date', 'get_status')
+    search_fields = ['registration_number', 'city__name']
     ordering = ['expiration_date']
     list_filter = ('city', StatusFilter)
 
-    def get_status(self, permission):
-        if date.today() > permission.expiration_date:
+    def get_status(self, registration):
+        if date.today() > registration.expiration_date:
             return format_html("<div style='color:red'><b>Expired</b></div>")
         else:
             return "OK"
