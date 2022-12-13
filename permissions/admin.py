@@ -8,7 +8,7 @@ from .models import City, Permission, Registration
 
 # admin.site.register(State)
 admin.site.register(City)
-admin.site.register(Permission)
+# admin.site.register(Permission)
 
 class StatusFilter(admin.SimpleListFilter):
     title = 'Status Filter'
@@ -43,3 +43,7 @@ class RegistrationAdmin(admin.ModelAdmin):
             return "OK"
 
     get_status.short_description = "status"
+
+@admin.register(Permission)
+class PermissionAdmin(admin.ModelAdmin):
+    list_display = ('permission_number', 'permission_document')
