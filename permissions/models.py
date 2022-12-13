@@ -45,6 +45,7 @@ class Permission(models.Model):
     address = models.CharField(max_length=100)
     registration = models.ForeignKey(Registration, on_delete=models.CASCADE)
     notes = models.TextField(null=True, blank=True)
+    permission_document = models.FileField(upload_to='files', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
