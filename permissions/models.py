@@ -37,11 +37,16 @@ class Registration(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.registration_number
+        return self.city.name + " " + self.registration_number
 
 class Permission(models.Model):
+    STATUS = (
+    ("ACTIVE", "Active"),
+    ("CLOSED", "Closed")    
+    )
     permission_number = models.CharField(max_length=100)
     po = models.CharField(max_length=100)
+    status = models.CharField(max_length=10, choices=STATUS, default="ACTIVE")
     address = models.CharField(max_length=100)
     registration = models.ForeignKey(Registration, on_delete=models.CASCADE)
     notes = models.TextField(null=True, blank=True)

@@ -40,10 +40,21 @@ class RegistrationAdmin(admin.ModelAdmin):
         if date.today() > registration.expiration_date:
             return format_html("<div style='color:red'><b>Expired</b></div>")
         else:
-            return "OK"
+            return format_html("<div style='color:green'><b>Active</b></div>")
 
     get_status.short_description = "status"
 
 @admin.register(Permission)
 class PermissionAdmin(admin.ModelAdmin):
-    list_display = ('permission_number', 'permission_document')
+    list_display = ('permission_number', 'get_city', 'status', 'permission_document')
+    list_filter = ('status','registration__city')
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(PermissionAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['registration'].queryset = Registration.objects.filter(expiration_date__gte=date.today())
+        return form
+    
+    def get_city(self, permission):
+        return permission.registration.city
+
+    get_city.short_description = "city"
