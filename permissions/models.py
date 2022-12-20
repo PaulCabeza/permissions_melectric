@@ -23,8 +23,8 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
-    class  Meta:
-        verbose_name_plural  =  "Cities"
+    class Meta:
+        verbose_name_plural  =  " Cities"
 
 class Registration(models.Model):
     registration_number = models.CharField(max_length=100)
@@ -38,6 +38,9 @@ class Registration(models.Model):
 
     def __str__(self):
         return self.city.name + " " + self.registration_number
+
+    class Meta:
+        verbose_name_plural  =  " Registrations"
 
 class Permission(models.Model):
     STATUS = (

@@ -7,8 +7,13 @@ from .models import City, Permission, Registration
 # Register your models here.
 
 # admin.site.register(State)
-admin.site.register(City)
+# admin.site.register(City)
 # admin.site.register(Permission)
+
+@admin.register(City)
+class CityAdmin(admin.ModelAdmin):
+    list_display = ('name', 'contact', 'phone', 'email')
+
 
 class StatusFilter(admin.SimpleListFilter):
     title = 'Status Filter'
@@ -46,7 +51,7 @@ class RegistrationAdmin(admin.ModelAdmin):
 
 @admin.register(Permission)
 class PermissionAdmin(admin.ModelAdmin):
-    list_display = ('permission_number', 'get_city', 'status', 'permission_document')
+    list_display = ('permission_number', 'po', 'address', 'get_city', 'status', 'permission_document')
     list_filter = ('status','registration__city')
 
     def get_form(self, request, obj=None, **kwargs):
