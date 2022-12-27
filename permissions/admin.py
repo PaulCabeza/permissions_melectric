@@ -6,10 +6,6 @@ from .models import City, Permission, Registration
 
 # Register your models here.
 
-# admin.site.register(State)
-# admin.site.register(City)
-# admin.site.register(Permission)
-
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
     list_display = ('name', 'contact', 'phone', 'email')
