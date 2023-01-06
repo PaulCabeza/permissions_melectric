@@ -11,7 +11,7 @@ class ClientAdmin(admin.ModelAdmin):
 @admin.register(PurchaseOrder)
 class PurchaseOrderAdmin(admin.ModelAdmin):
     list_display = ('number', 'client', 'get_client_address', 'status')
-    list_filter = ('status',)
+    list_filter = ('status',)    
 
     def get_client_address(self, purchase_order):
         client_address = purchase_order.client.address
@@ -22,23 +22,27 @@ class PurchaseOrderAdmin(admin.ModelAdmin):
         form = super(PurchaseOrderAdmin, self).get_form(request, obj, **kwargs)
         current_year = str(date.today().year)[-2:]
         current_month = date.today().month
+        form.base_fields['number'].initial = self.next_po_number(current_year=current_year, current_month=current_month)
+        form.base_fields['number'].disabled = True
+        return form
+
+    def next_po_number(self, current_year, current_month):
         if len(str(current_month)) == 1:
             current_month = "0" + str(current_month)
         else:
             current_month = str(current_month)
-
-        last_po = PurchaseOrder.objects.all().last()
+        last_po = PurchaseOrder.objects.all().last()        
         if last_po:
-            last_po_number = int(last_po.number[-2:]) + 1
-            if len(str(last_po_number)) == 1:
-                new_po_number = "0" + str(last_po_number)
+            last_po_month = last_po.number[3:5]
+            if (current_month == last_po_month):
+                last_po_number = int(last_po.number[-2:]) + 1
+                if len(str(last_po_number)) == 1:
+                    new_po_number = "0" + str(last_po_number)
+                else:
+                    new_po_number = str(last_po_number)
             else:
-                new_po_number = str(last_po_number)
-            
+                new_po_number = '01'         
         else:
             new_po_number = '01'
-
         new_po_number = str(current_year) + '-' + current_month + new_po_number
-
-        form.base_fields['number'].initial = new_po_number
-        return form
+        return new_po_number
